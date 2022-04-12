@@ -1,0 +1,9 @@
+---
+title: "final_proj"
+author: "Cooper Coradeschi, Sadie Cutler, Dane Miller"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
