@@ -15,6 +15,8 @@ vow_data <- read.csv("vow.csv")
 
 mid_draft_data <- read.csv("mid_draft.csv")
 
+game_wins = 114
+game_losses = 60
 ```
 
 ```{R}
@@ -23,13 +25,27 @@ hist(neo_data$OH.WR, freq = F, col=rgb(0,0,1,alpha=0.2))
 hist(mid_data$OH.WR, freq = F, col=rgb(0,1,0,alpha=0.2), add = T)
 hist(vow_data$OH.WR, freq = F, col=rgb(1,0,0,alpha=0.2), add = T)
 
-
-
 ```
 
 ```{R}
 c(neo_data$Name[which.max(neo_data$OH.WR)], mid_data$Name[which.max(mid_data$OH.WR)], vow_data$Name[which.max(vow_data$OH.WR)])
+```
 
 
+```{R}
+
+total_played = sum(mid_draft_data$Wins) + sum(mid_draft_data$Losses)
+num_wins = sum(mid_draft_data$Wins)
+num_loss = sum(sum(mid_draft_data$Losses))
+
+plot(y = mid_draft_data$Wins, x = mid_draft_data$Losses, type = "p")
+abline(a = 0, b = game_wins/game_losses)
 
 ```
+
+
+
+
+
+
+
