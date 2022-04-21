@@ -7,3 +7,29 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{R}
+neo_data <- read.csv("neo.csv")
+mid_data <- read.csv("mid.csv")
+vow_data <- read.csv("vow.csv")
+
+mid_draft_data <- read.csv("mid_draft.csv")
+
+```
+
+```{R}
+
+hist(neo_data$OH.WR, freq = F, col=rgb(0,0,1,alpha=0.2))
+hist(mid_data$OH.WR, freq = F, col=rgb(0,1,0,alpha=0.2), add = T)
+hist(vow_data$OH.WR, freq = F, col=rgb(1,0,0,alpha=0.2), add = T)
+
+
+
+```
+
+```{R}
+c(neo_data$Name[which.max(neo_data$OH.WR)], mid_data$Name[which.max(mid_data$OH.WR)], vow_data$Name[which.max(vow_data$OH.WR)])
+
+
+
+```
