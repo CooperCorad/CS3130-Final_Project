@@ -14,6 +14,7 @@ mid_data <- read.csv("mid.csv")
 vow_data <- read.csv("vow.csv")
 
 mid_draft_data <- read.csv("mid_draft.csv")
+winrate_draft_data <-read.csv("win_rate.csv")
 
 game_wins = 114
 game_losses = 60
@@ -25,6 +26,10 @@ hist(neo_data$OH.WR, freq = F, col=rgb(0,0,1,alpha=0.2))
 hist(mid_data$OH.WR, freq = F, col=rgb(0,1,0,alpha=0.2), add = T)
 hist(vow_data$OH.WR, freq = F, col=rgb(1,0,0,alpha=0.2), add = T)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d72d71be4edf76802052e8242baf373a26566abf
 ```
 
 ```{R}
@@ -47,5 +52,9 @@ abline(a = 0, b = game_wins/game_losses)
 
 
 
+<<<<<<< HEAD
 
 
+=======
+```
+>>>>>>> d72d71be4edf76802052e8242baf373a26566abf
