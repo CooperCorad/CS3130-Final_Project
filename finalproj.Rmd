@@ -26,10 +26,7 @@ hist(neo_data$OH.WR, freq = F, col=rgb(0,0,1,alpha=0.2))
 hist(mid_data$OH.WR, freq = F, col=rgb(0,1,0,alpha=0.2), add = T)
 hist(vow_data$OH.WR, freq = F, col=rgb(1,0,0,alpha=0.2), add = T)
 
-<<<<<<< HEAD
-=======
 
->>>>>>> d72d71be4edf76802052e8242baf373a26566abf
 ```
 
 ```{R}
@@ -43,18 +40,18 @@ total_played = sum(mid_draft_data$Wins) + sum(mid_draft_data$Losses)
 num_wins = sum(mid_draft_data$Wins)
 num_loss = sum(sum(mid_draft_data$Losses))
 
-plot(y = mid_draft_data$Wins, x = mid_draft_data$Losses, type = "p")
-abline(a = 0, b = game_wins/game_losses)
+#bomb cards that were drafted
+bomb_cards <- c("The Meathhook Massacre", "Wrenn and Seven", "Tovolar's Huntmaster", "Leisa Forgotten Archangel", "Sigarda Champion of Light",
+                "Consuming Blob", "Arlinn the Pack's Hope", "Burn Down the House", "Poppet Stitcher", "Tainted Adversary", "Intrepid Adversary", 
+                "Brutal Cathar", "Tovolar Dire Overlord", "Sunstreak Phoenix", "Florian Voldaren Scion", "Moonveil Regen", "Augur of Autumn");
+
+#for (i in mid_draft_data$Card)
+
+
+
+bomb_eval <- plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% bomb_cards, 'red', 'grey'), type = "p")
+#points()
+
+#abline(a = 0, b = game_wins/game_losses)
 
 ```
-
-
-
-
-
-<<<<<<< HEAD
-
-
-=======
-```
->>>>>>> d72d71be4edf76802052e8242baf373a26566abf
