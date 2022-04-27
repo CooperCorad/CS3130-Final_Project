@@ -45,13 +45,34 @@ bomb_cards <- c("The Meathhook Massacre", "Wrenn and Seven", "Tovolar's Huntmast
                 "Consuming Blob", "Arlinn the Pack's Hope", "Burn Down the House", "Poppet Stitcher", "Tainted Adversary", "Intrepid Adversary", 
                 "Brutal Cathar", "Tovolar Dire Overlord", "Sunstreak Phoenix", "Florian Voldaren Scion", "Moonveil Regen", "Augur of Autumn");
 
-#for (i in mid_draft_data$Card)
-
 
 
 bomb_eval <- plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% bomb_cards, 'red', 'grey'), type = "p")
-#points()
 
-#abline(a = 0, b = game_wins/game_losses)
+abline(a = 0, b = game_wins/game_losses)
 
 ```
+
+
+
+```{R}
+vow_boxplot <- boxplot(vow_data$IWD)
+
+vow_outliers <- vow_data[vow_data$IWD %in% vow_boxplot$out,]
+vow_outliers
+
+vow_outliers_names <- vow_outliers$Name
+vow_outliers_names
+
+number_of_vow_outliers <- length(vow_outliers_names)
+number_of_vow_outliers
+
+number_of_vow_cards <- length(vow_data$Name)
+number_of_vow_cards
+
+percent_of_outliers <- number_of_vow_outliers / number_of_vow_cards
+percent_of_outliers
+```
+
+
+
