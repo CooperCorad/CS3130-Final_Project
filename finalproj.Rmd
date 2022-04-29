@@ -45,6 +45,8 @@ Roughly every three months, a brand new Magic: The Gathering set is released whi
 
 There are a lot of factors that go into making a set fun, and the best sets get drafted frequently for all three months before a new set comes out. Other sets see the player base dwindle quickly, and even dedicated drafters are desperate for a new set by the three month mark. Balancing the power of rares and mythic rares is often a key part of this. A recent set, Kamigawa: Neon Dynasty, was a community hit for a variety of reasons, but part of this came down to the rare cards. Almost all of the rares and mythic rares were good, but very few of them were outright ‘bombs’. This meant that players were rewarded for playing these cards, and rightfully so. It’s supposed to feel good to play a powerful rare or mythic, and rewarding players for doing so helps with the sets retention. However, opponents also didn’t feel helpless when these cards were cast. This kept the games fun for casual and competitive play, and the set was very well loved.
 
+The purpose of this study is to determine the significance of 'bomb' cards in the midnight hunt set. The Midnight hunt set is referred to as a 'pauper set', so we expect that good value and synergistic commons and uncommons have more significant impact on games than 'bombs'. To determine this, we first conducted our own study of drafts within the set, and then also compared it to larger data sets including other Magic: The Gathering sets around the same time.
+
  <br> <br> <br>
 
 
@@ -61,7 +63,7 @@ There are a lot of factors that go into making a set fun, and the best sets get 
 ```
 
 ## MID Draft Data Analaysis
-Our analysis centers around a different recent set, Innistrad: Midnight Hunt. Often described as a pauper set, the lower rarity cards allowed for a lot of synergy and value generation. To dive deep into the set, we drafted 25 times, resulting in 174 games played, and tracked which cards ended up in our final decks. Since we draft forty five cards each time but only typically play twenty three of them, we made sure to not include cards that sat around doing nothing. Below is a plot of all the cards we played plotted on wins and losses. The line representing our average win rate shows that cards above the line overperformed and that cards below the line underperformed.
+To dive deep into the set, we drafted 25 times, resulting in 174 games played, and tracked which cards ended up in our final decks. Since we draft forty five cards each time but only typically play twenty three of them, we made sure to not include cards that sat around doing nothing. Below is a plot of all the cards we played plotted on wins and losses. The line representing our average win rate shows that cards above the line overperformed and that cards below the line underperformed.
 ```{R echo = FALSE}
 
 total_played = sum(mid_draft_data$Wins) + sum(mid_draft_data$Losses)
@@ -71,7 +73,7 @@ num_loss = sum(sum(mid_draft_data$Losses))
 plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% mid_bombs, 'red', 'grey'), type = "p")  #plot the wins over the losses
 abline(a = 0, b = game_wins/game_losses)                              #add a line with the slope of our wins over losses to see how are data                                                                          #compare
 ```
-Here we’ve highlighted the ‘bomb’s of the set. Each red dot represents an exceptionally powerful card. As you can see, these cards didn’t overperform in our decks. As a matter of fact, most of them underperformed. We had the opportunity to play with eight of the seventeen cards regarded as ‘bomb’ (see https://draftsim.com/MID-pick-order.php), and five of those cards actually had lower win rates than our average. Only three cards, Consuming Blob, Tovolar’s Huntmaster, and Liesa, Forgotten Angel actually outperformed our average win rate, and even then they were themselves outperformed by some common cards in the set. Consider Celestus Sanctifier, an underwhelming common with decent stats and minimal upside. Not only was this one of our most played cards, it also boasted a colossal 82.5% win rate over fifty seven games played. Obviously, it’s a worse card than Liesa, Forgotten Angel by itself, but it is easy to cast and helps synergize excellently with other cards like Mourning Patrol. 
+<br>Here we’ve highlighted the ‘bomb’s of the set. Each red dot represents an exceptionally powerful card. As you can see, these cards didn’t overperform in our decks. As a matter of fact, most of them underperformed. We had the opportunity to play with eight of the seventeen cards regarded as ‘bomb’ (see https://draftsim.com/MID-pick-order.php), and five of those cards actually had lower win rates than our average. Only three cards, Consuming Blob, Tovolar’s Huntmaster, and Liesa, Forgotten Angel actually outperformed our average win rate, and even then they were themselves outperformed by some common cards in the set. Consider Celestus Sanctifier, an underwhelming common with decent stats and minimal upside. Not only was this one of our most played cards, it also boasted a colossal 82.5% win rate over fifty seven games played. Obviously, it’s a worse card than Liesa, Forgotten Angel by itself, but it is easy to cast and helps synergize excellently with other cards like Mourning Patrol. 
 
 ## VOW DATA SET ANALYSIS
 ```{R echo = FALSE}
@@ -88,7 +90,7 @@ plot(vow_loss, vow_win, xlim = lim, ylim = lim, col=ifelse(vow_data$Name %in% vo
 abline(a = 0, b = sum(vow_win, na.rm = T)/sum(vow_loss, na.rm = T))
 
 ```
-This compares the wins and losses of draft games from the VOW magic set. The red points represent bombs as determined from IWD rates (IWD stands for Improvement When Drawn) and analysis regarding the overall impact the cards have in a game. From this graph, the red points are all above the base win rate calculated from the entire set, showing that these cards would routinely improve player games when used.
+<br>This compares the wins and losses of draft games from the VOW magic set. The red points represent bombs as determined from IWD rates (IWD stands for Improvement When Drawn) and analysis regarding the overall impact the cards have in a game. From this graph, the red points are all above the base win rate calculated from the entire set, showing that these cards would routinely improve player games when used.
 
 
 
@@ -141,7 +143,7 @@ number_of_vow_cards <- length(vow_data$Name)
 percent_of_vow_outliers <- number_of_vow_outliers / number_of_vow_cards
 percent_of_vow_outliers
 ```
-Here you can see that there are 14 outliers in the VOW set, making 5% of the cards outliers that would significantly affect your win rate when drawn.
+<br>Here you can see that there are 14 outliers in the VOW set, making 5% of the cards outliers that would significantly affect your win rate when drawn.
 
 ```{R echo = FALSE}
 mid_boxplot <- boxplot(mid_data$IWD, main = "MID Data Boxplot", ylab = "Improvement When Drawn")
@@ -161,7 +163,7 @@ percent_of_mid_outliers
 
 ```
 
-In the MID box plot there are only 2 outliers, making outliers 0.7% of the data set. These box plots highlight the signficance of "bomb" cards in the VOW magic set compared to a more balanced magic such as the MID set. The Improvement when drawn is a statistics that removes all the times that a player has the card in their deck but is not seen during the game. This data only shows how the card directly impacts the game. As shown, VOW has signifcantly more cards that could greatly impact (whether positively or negatively) a players game when drawn.
+<br>In the MID box plot there are only 2 outliers, making outliers 0.7% of the data set. These box plots highlight the signficance of "bomb" cards in the VOW magic set compared to a more balanced magic such as the MID set. The Improvement when drawn is a statistics that removes all the times that a player has the card in their deck but is not seen during the game. This data only shows how the card directly impacts the game. As shown, VOW has signifcantly more cards that could greatly impact (whether positively or negatively) a players game when drawn.
 
 
 ## Hypothesis Test:
@@ -175,5 +177,10 @@ for(i in mid_draft_data) {
 t.test(x = mid_data$GP.WR, y = mid_draft_win_rate, conf.level = .995)
 
 ```
-A Welch t-test was used to compare the large data set from 17lands.com and the gathered draft data obtained for this assignment. The p-value is significantly below 0.05, so we can reject the null hypothesis showing that our data fits with the very large user base data that was obtained from 17lands.com. From the 25 drafts records for the drafted data set, the results were very similar to the large data set obtained from 17lands.com. 
+<br>A Welch t-test was used to compare the large data set from 17lands.com and the gathered draft data obtained for this assignment. The p-value is significantly below 0.05, so we can reject the null hypothesis showing that our data fits with the very large user base data that was obtained from 17lands.com. From the 25 drafts records for the drafted data set, the results were very similar to the large data set obtained from 17lands.com. 
 
+
+## Conclusion
+
+
+The data set gathered from the 25 drafts were very statistically significant compared to the much larger MID data set obtained from 17lands.com. The data gathered is representative of the average user experience. Midnight Hunt had fewer outliers in the set compared to other recent sets. Individual cards in the VOW set were much more likely to determine the outcome of a game. These 'bombs' in Crimson Vow were largely positive, meaning that if a player drew one of the 'bomb' cards, the likelihood of winning dramatically improved. 
