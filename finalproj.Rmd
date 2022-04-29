@@ -8,7 +8,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{R}
+```{R echo = FALSE}
 neo_data <- read.csv("neo.csv")
 mid_data <- read.csv("mid.csv")
 vow_data <- read.csv("vow.csv")
@@ -34,28 +34,47 @@ mid_bombs = c("The Meathhook Massacre", "Wrenn and Seven", "Tovolar's Huntmaster
 
 ```
 
-```{R}
 
-hist(neo_data$OH.WR, freq = F, col=rgb(0,0,1,alpha=0.2))
-hist(mid_data$OH.WR, freq = F, col=rgb(0,1,0,alpha=0.2), add = T)
-hist(vow_data$OH.WR, freq = F, col=rgb(1,0,0,alpha=0.2), add = T)
+## Introduction:
+
+Magic: The Gathering is a collectible card game with a variety of ways to play. For this analysis, we’ll be focussing on drafts. In a draft, eight players sit around a table, each with three packs of fifteen cards. All eight players open the first pack, pick a single card from it, and then pass the remaining cards to their left. This is repeated until the first pack is empty, and then the second is opened. This time players pass to the right. Finally, the third pack is opened and passed again to the left. This process leaves each player with forty five hand picked cards in their pool, typically spanning only two of the five colors. From these cards, each player makes a forty card minimum deck of twenty three of those drafted cards and seventeen lands. Once the deck building process is complete, the eight decks are played against each other to determine the best of the pod.
+
+What we are most interested in is the contents of each pack. A draft booster pack contains fifteen cards, but these cards are not created equally. There is one land card, ten common cards, and three uncommon cards. The last card in the pack is either a rare or a mythic rare card. While there are many exceptions to the rule, the mythic rare cards are typically the best, then the rares, the uncommons, and finally the commons. However, since the distribution is so heavily weighted towards the lower rarities, most games are decided by the quality and synergy of a deck's common cards.
+
+Roughly every three months, a brand new Magic: The Gathering set is released which typically contains 350 cards. These are the cards that players will find in their draft booster packs when drafting the set. The primary focus of our study deals with the unique environments of each set. One particular characteristic of a set is whether it is a ‘prince’ or ‘pauper’ set. A ‘prince’ set is a set where the rare and mythic rare cards outperform the commons and uncommons by so much that games are almost exclusively decided by who plays an incredible rare first. These cards, which can single handedly determine the outcome of games, are called ‘bomb’. A ‘pauper’ set is the opposite, where even incredible bombs struggle to keep up with good synergies. In these sets, games are determined by several cards working together at once to generate value, and the most cohesive decks tend to win.
+
+There are a lot of factors that go into making a set fun, and the best sets get drafted frequently for all three months before a new set comes out. Other sets see the player base dwindle quickly, and even dedicated drafters are desperate for a new set by the three month mark. Balancing the power of rares and mythic rares is often a key part of this. A recent set, Kamigawa: Neon Dynasty, was a community hit for a variety of reasons, but part of this came down to the rare cards. Almost all of the rares and mythic rares were good, but very few of them were outright ‘bombs’. This meant that players were rewarded for playing these cards, and rightfully so. It’s supposed to feel good to play a powerful rare or mythic, and rewarding players for doing so helps with the sets retention. However, opponents also didn’t feel helpless when these cards were cast. This kept the games fun for casual and competitive play, and the set was very well loved.
+
+ <br> <br> <br>
+
+
+
+```{R echo = FALSE}
+
+#hist(neo_data$OH.WR, freq = F, col=rgb(0,0,1,alpha=0.2))
+#hist(mid_data$OH.WR, freq = F, col=rgb(0,1,0,alpha=0.2), add = T)
+#hist(vow_data$OH.WR, freq = F, col=rgb(1,0,0,alpha=0.2), add = T)
 ```
 
-```{R}
-c(neo_data$Name[which.max(neo_data$OH.WR)], mid_data$Name[which.max(mid_data$OH.WR)], vow_data$Name[which.max(vow_data$OH.WR)])
+```{R echo = FALSE}
+#c(neo_data$Name[which.max(neo_data$GP.WR)], mid_data$Name[which.max(mid_data$GP.WR)], vow_data$Name[which.max(vow_data$GP.WR)])
 ```
 
-```{R}
+## MID Draft Data Analaysis
+Our analysis centers around a different recent set, Innistrad: Midnight Hunt. Often described as a pauper set, the lower rarity cards allowed for a lot of synergy and value generation. To dive deep into the set, we drafted 25 times, resulting in 174 games played, and tracked which cards ended up in our final decks. Since we draft forty five cards each time but only typically play twenty three of them, we made sure to not include cards that sat around doing nothing. Below is a plot of all the cards we played plotted on wins and losses. The line representing our average win rate shows that cards above the line overperformed and that cards below the line underperformed.
+```{R echo = FALSE}
 
 total_played = sum(mid_draft_data$Wins) + sum(mid_draft_data$Losses)
 num_wins = sum(mid_draft_data$Wins)
 num_loss = sum(sum(mid_draft_data$Losses))
 
-plot(y = mid_draft_data$Wins, x = mid_draft_data$Losses, type = "p")  #plot the wins over the losses
+plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% mid_bombs, 'red', 'grey'), type = "p")  #plot the wins over the losses
 abline(a = 0, b = game_wins/game_losses)                              #add a line with the slope of our wins over losses to see how are data                                                                          #compare
 ```
+Here we’ve highlighted the ‘bomb’s of the set. Each red dot represents an exceptionally powerful card. As you can see, these cards didn’t overperform in our decks. As a matter of fact, most of them underperformed. We had the opportunity to play with eight of the seventeen cards regarded as ‘bomb’ (see https://draftsim.com/MID-pick-order.php), and five of those cards actually had lower win rates than our average. Only three cards, Consuming Blob, Tovolar’s Huntmaster, and Liesa, Forgotten Angel actually outperformed our average win rate, and even then they were themselves outperformed by some common cards in the set. Consider Celestus Sanctifier, an underwhelming common with decent stats and minimal upside. Not only was this one of our most played cards, it also boasted a colossal 82.5% win rate over fifty seven games played. Obviously, it’s a worse card than Liesa, Forgotten Angel by itself, but it is easy to cast and helps synergize excellently with other cards like Mourning Patrol. 
 
-```{R}
+## VOW DATA SET ANALYSIS
+```{R echo = FALSE}
 
 vow_win = c(vow_data$GP.WR/100 * vow_data$X..GP)
 vow_loss = c(vow_data$X..GP - vow_win)
@@ -69,52 +88,47 @@ plot(vow_loss, vow_win, xlim = lim, ylim = lim, col=ifelse(vow_data$Name %in% vo
 abline(a = 0, b = sum(vow_win, na.rm = T)/sum(vow_loss, na.rm = T))
 
 ```
+This compares the wins and losses of draft games from the VOW magic set. The red points represent bombs as determined from IWD rates (IWD stands for Improvement When Drawn) and analysis regarding the overall impact the cards have in a game. From this graph, the red points are all above the base win rate calculated from the entire set, showing that these cards would routinely improve player games when used.
 
-```{R}
 
-mid_win = c(mid_data$GP.WR/100 * mid_data$X..GP)
-mid_loss = c(mid_data$X..GP - mid_win)
 
-plot(mid_loss, mid_win, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
-abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
+```{R echo = FALSE}
 
-lim = c(0,15000)
+#mid_win = c(mid_data$GP.WR/100 * mid_data$X..GP)
+#mid_loss = c(mid_data$X..GP - mid_win)
 
-plot(mid_loss, mid_win, xlim = lim, ylim = lim, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
-abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
+#plot(mid_loss, mid_win, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
+#abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
 
-mid_data$Name[which.min(mid_bombs %in% mid_data$Name)] # trying to get lowest performing bombs
+#lim = c(0,15000)
+
+#plot(mid_loss, mid_win, xlim = lim, ylim = lim, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
+#abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
+
+#mid_data$Name[which.min(mid_bombs %in% mid_data$Name)] # trying to get lowest performing bombs
 ```
 
-```{R}
+```{R echo = FALSE}
 
-neo_win = c(neo_data$GP.WR/100 * neo_data$X..GP)
-neo_loss = c(neo_data$X..GP - neo_win)
+#neo_win = c(neo_data$GP.WR/100 * neo_data$X..GP)
+#neo_loss = c(neo_data$X..GP - neo_win)
 
-plot(neo_loss, neo_win, col=ifelse(neo_data$Name %in% neo_bombs, 'red', 'grey'), type = 'p')
-abline(a = 0, b = sum(neo_win, na.rm = T)/sum(neo_loss, na.rm = T))
+#plot(neo_loss, neo_win, col=ifelse(neo_data$Name %in% neo_bombs, 'red', 'grey'), type = 'p')
+#abline(a = 0, b = sum(neo_win, na.rm = T)/sum(neo_loss, na.rm = T))
 
-lim = c(0, 25000)
+#lim = c(0, 25000)
 
-plot(neo_loss, neo_win, xlim = lim, ylim = lim, col=ifelse(neo_data$Name %in% neo_bombs, 'red', 'grey'), type = 'p')
-abline(a = 0, b = sum(neo_win, na.rm = T)/sum(neo_loss, na.rm = T))
-
-```
-
-```{R}
-
-bomb_eval <- plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% mid_bombs, 'red', 'grey'), type = "p")
-abline(a = 0, b = game_wins/game_losses)
+#plot(neo_loss, neo_win, xlim = lim, ylim = lim, col=ifelse(neo_data$Name %in% neo_bombs, 'red', 'grey'), type = 'p')
+#abline(a = 0, b = sum(neo_win, na.rm = T)/sum(neo_loss, na.rm = T))
 
 ```
 
 
-
-```{R}
-vow_boxplot <- boxplot(vow_data$IWD)
+## Analysis of MID and VOW outliers
+```{R echo = FALSE}
+vow_boxplot <- boxplot(vow_data$IWD, main = "VOW Data Boxplot", ylab = "Improvement When Drawn")
 
 vow_outliers <- vow_data[vow_data$IWD %in% vow_boxplot$out,]
-vow_outliers
 
 vow_outliers_names <- vow_outliers$Name
 vow_outliers_names
@@ -123,11 +137,43 @@ number_of_vow_outliers <- length(vow_outliers_names)
 number_of_vow_outliers
 
 number_of_vow_cards <- length(vow_data$Name)
-number_of_vow_cards
 
-percent_of_outliers <- number_of_vow_outliers / number_of_vow_cards
-percent_of_outliers
+percent_of_vow_outliers <- number_of_vow_outliers / number_of_vow_cards
+percent_of_vow_outliers
+```
+Here you can see that there are 14 outliers in the VOW set, making 5% of the cards outliers that would significantly affect your win rate when drawn.
+
+```{R echo = FALSE}
+mid_boxplot <- boxplot(mid_data$IWD, main = "MID Data Boxplot", ylab = "Improvement When Drawn")
+
+mid_outliers <- mid_data[mid_data$IWD %in% mid_boxplot$out,]
+
+mid_outliers_names <- mid_outliers$Name
+mid_outliers_names
+
+number_of_mid_outliers <- length(mid_outliers_names)
+number_of_mid_outliers
+
+number_of_mid_cards <- length(mid_data$Name)
+
+percent_of_mid_outliers <- number_of_mid_outliers / number_of_mid_cards
+percent_of_mid_outliers
+
 ```
 
+In the MID box plot there are only 2 outliers, making outliers 0.7% of the data set. These box plots highlight the signficance of "bomb" cards in the VOW magic set compared to a more balanced magic such as the MID set. The Improvement when drawn is a statistics that removes all the times that a player has the card in their deck but is not seen during the game. This data only shows how the card directly impacts the game. As shown, VOW has signifcantly more cards that could greatly impact (whether positively or negatively) a players game when drawn.
 
+
+## Hypothesis Test:
+```{R echo = FALSE}
+mid_draft_win_rate <- c()
+
+for(i in mid_draft_data) {
+  mid_draft_win_rate <- ((mid_draft_data$Wins / (mid_draft_data$Wins + mid_draft_data$Losses))) * 100
+}
+
+t.test(x = mid_data$GP.WR, y = mid_draft_win_rate, conf.level = .995)
+
+```
+A Welch t-test was used to compare the large data set from 17lands.com and the gathered draft data obtained for this assignment. The p-value is significantly below 0.05, so we can reject the null hypothesis showing that our data fits with the very large user base data that was obtained from 17lands.com. From the 25 drafts records for the drafted data set, the results were very similar to the large data set obtained from 17lands.com. 
 
