@@ -103,20 +103,8 @@ abline(a = 0, b = sum(neo_win, na.rm = T)/sum(neo_loss, na.rm = T))
 
 ```{R}
 
-
-
-
-<<<<<<< HEAD
-bomb_eval <- plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% bomb_cards, 'red', 'grey'), type = "p")
-
-abline(a = 0, b = game_wins/game_losses)
-=======
 bomb_eval <- plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% mid_bombs, 'red', 'grey'), type = "p")
 abline(a = 0, b = game_wins/game_losses)
-
-#points()
-
->>>>>>> 258f195837e861bb7f0c1b6d49dbc06af90cc42b
 
 ```
 
