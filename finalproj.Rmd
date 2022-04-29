@@ -16,8 +16,22 @@ vow_data <- read.csv("vow.csv")
 mid_draft_data <- read.csv("mid_draft.csv")
 winrate_draft_data <-read.csv("win_rate.csv")
 
+
+
 game_wins = 114
 game_losses = 60
+
+#bomb cards that were drafted
+
+vow_bombs = c("Avabruck Caretaker", "Dreadfast Demon", "Toxrill the Corrosive", "Henrika Domnathi", "Cemetary Desecrator", "Halana and Alena Partners", "Sorin the Mirthless", "Manaform Hellkite", "Wedding Annoucement")
+
+neo_bombs = c("Jugan Defends the Temple", "Farewell", "Tamiyo Compleated Sage", "The Wandering Emperor", "Kaito Shizuki", "Kura the Boundless Sky", "Atushi the Blazing Sky", "Junji the Midnight Sky", "Kairi the Swirling Sky", "Ao the Dawn Sky", "Tezzeret Betrayer of Flesh", "Reckoner Bankbuster")
+
+mid_bombs = c("The Meathhook Massacre", "Wrenn and Seven", "Tovolar's Huntmaster", "Leisa Forgotten Archangel", "Sigarda Champion of Light",
+                "Consuming Blob", "Arlinn the Pack's Hope", "Burn Down the House", "Poppet Stitcher", "Tainted Adversary", "Intrepid Adversary",
+                "Brutal Cathar", "Tovolar Dire Overlord", "Sunstreak Phoenix", "Florian Voldaren Scion", "Moonveil Regen", "Augur of Autumn")
+
+
 ```
 
 ```{R}
@@ -25,14 +39,11 @@ game_losses = 60
 hist(neo_data$OH.WR, freq = F, col=rgb(0,0,1,alpha=0.2))
 hist(mid_data$OH.WR, freq = F, col=rgb(0,1,0,alpha=0.2), add = T)
 hist(vow_data$OH.WR, freq = F, col=rgb(1,0,0,alpha=0.2), add = T)
-
-
 ```
 
 ```{R}
 c(neo_data$Name[which.max(neo_data$OH.WR)], mid_data$Name[which.max(mid_data$OH.WR)], vow_data$Name[which.max(vow_data$OH.WR)])
 ```
-
 
 ```{R}
 
@@ -40,16 +51,72 @@ total_played = sum(mid_draft_data$Wins) + sum(mid_draft_data$Losses)
 num_wins = sum(mid_draft_data$Wins)
 num_loss = sum(sum(mid_draft_data$Losses))
 
-#bomb cards that were drafted
-bomb_cards <- c("The Meathhook Massacre", "Wrenn and Seven", "Tovolar's Huntmaster", "Leisa Forgotten Archangel", "Sigarda Champion of Light",
-                "Consuming Blob", "Arlinn the Pack's Hope", "Burn Down the House", "Poppet Stitcher", "Tainted Adversary", "Intrepid Adversary", 
-                "Brutal Cathar", "Tovolar Dire Overlord", "Sunstreak Phoenix", "Florian Voldaren Scion", "Moonveil Regen", "Augur of Autumn");
+plot(y = mid_draft_data$Wins, x = mid_draft_data$Losses, type = "p")  #plot the wins over the losses
+abline(a = 0, b = game_wins/game_losses)                              #add a line with the slope of our wins over losses to see how are data                                                                          #compare
+```
+
+```{R}
+
+vow_win = c(vow_data$GP.WR/100 * vow_data$X..GP)
+vow_loss = c(vow_data$X..GP - vow_win)
+
+plot(vow_loss, vow_win, col=ifelse(vow_data$Name %in% vow_bombs, 'red', 'grey'), type = 'p')
+abline(a = 0, b = sum(vow_win, na.rm = T)/sum(vow_loss, na.rm = T))
+
+lim = c(0,20000)
+
+plot(vow_loss, vow_win, xlim = lim, ylim = lim, col=ifelse(vow_data$Name %in% vow_bombs, 'red', 'grey'), type = 'p')
+abline(a = 0, b = sum(vow_win, na.rm = T)/sum(vow_loss, na.rm = T))
+
+```
+
+```{R}
+
+mid_win = c(mid_data$GP.WR/100 * mid_data$X..GP)
+mid_loss = c(mid_data$X..GP - mid_win)
+
+plot(mid_loss, mid_win, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
+abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
+
+lim = c(0,15000)
+
+plot(mid_loss, mid_win, xlim = lim, ylim = lim, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
+abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
+
+mid_data$Name[which.min(mid_bombs %in% mid_data$Name)] # trying to get lowest performing bombs
+```
+
+```{R}
+
+neo_win = c(neo_data$GP.WR/100 * neo_data$X..GP)
+neo_loss = c(neo_data$X..GP - neo_win)
+
+plot(neo_loss, neo_win, col=ifelse(neo_data$Name %in% neo_bombs, 'red', 'grey'), type = 'p')
+abline(a = 0, b = sum(neo_win, na.rm = T)/sum(neo_loss, na.rm = T))
+
+lim = c(0, 25000)
+
+plot(neo_loss, neo_win, xlim = lim, ylim = lim, col=ifelse(neo_data$Name %in% neo_bombs, 'red', 'grey'), type = 'p')
+abline(a = 0, b = sum(neo_win, na.rm = T)/sum(neo_loss, na.rm = T))
+
+```
+
+```{R}
 
 
 
+
+<<<<<<< HEAD
 bomb_eval <- plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% bomb_cards, 'red', 'grey'), type = "p")
 
 abline(a = 0, b = game_wins/game_losses)
+=======
+bomb_eval <- plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% mid_bombs, 'red', 'grey'), type = "p")
+abline(a = 0, b = game_wins/game_losses)
+
+#points()
+
+>>>>>>> 258f195837e861bb7f0c1b6d49dbc06af90cc42b
 
 ```
 
