@@ -1,5 +1,5 @@
 ---
-title: "final_proj"
+title: "'Bombs' in Innistrad: Midnight Hunt"
 author: "Cooper Coradeschi, Sadie Cutler, Dane Miller"
 output: html_document
 ---
@@ -35,7 +35,7 @@ mid_bombs = c("The Meathhook Massacre", "Wrenn and Seven", "Tovolar's Huntmaster
 ```
 
 
-## Introduction:
+## Introduction
 
 Magic: The Gathering is a collectible card game with a variety of ways to play. For this analysis, we’ll be focussing on drafts. In a draft, eight players sit around a table, each with three packs of fifteen cards. All eight players open the first pack, pick a single card from it, and then pass the remaining cards to their left. This is repeated until the first pack is empty, and then the second is opened. This time players pass to the right. Finally, the third pack is opened and passed again to the left. This process leaves each player with forty five hand picked cards in their pool, typically spanning only two of the five colors. From these cards, each player makes a forty card minimum deck of twenty three of those drafted cards and seventeen lands. Once the deck building process is complete, the eight decks are played against each other to determine the best of the pod.
 
@@ -45,7 +45,7 @@ Roughly every three months, a brand new Magic: The Gathering set is released whi
 
 There are a lot of factors that go into making a set fun, and the best sets get drafted frequently for all three months before a new set comes out. Other sets see the player base dwindle quickly, and even dedicated drafters are desperate for a new set by the three month mark. Balancing the power of rares and mythic rares is often a key part of this. A recent set, Kamigawa: Neon Dynasty, was a community hit for a variety of reasons, but part of this came down to the rare cards. Almost all of the rares and mythic rares were good, but very few of them were outright ‘bombs’. This meant that players were rewarded for playing these cards, and rightfully so. It’s supposed to feel good to play a powerful rare or mythic, and rewarding players for doing so helps with the sets retention. However, opponents also didn’t feel helpless when these cards were cast. This kept the games fun for casual and competitive play, and the set was very well loved.
 
-The purpose of this study is to determine the significance of 'bomb' cards in the midnight hunt set. The Midnight hunt set is referred to as a 'pauper set', so we expect that good value and synergistic commons and uncommons have more significant impact on games than 'bombs'. To determine this, we first conducted our own study of drafts within the set, and then also compared it to larger data sets including other Magic: The Gathering sets around the same time.
+The purpose of this study is to determine the significance of 'bomb' cards in the Midnight Hunt set. The Midnight Hunt set is referred to as a 'pauper set', so we expect that good value and synergistic commons and uncommons have more significant impact on games than 'bombs'. To determine this, we first conducted our own study of drafts within the set, and then also compared it to larger data sets including other Magic: The Gathering sets around the same time.
 
  <br> <br> <br>
 
@@ -62,8 +62,13 @@ The purpose of this study is to determine the significance of 'bomb' cards in th
 #c(neo_data$Name[which.max(neo_data$GP.WR)], mid_data$Name[which.max(mid_data$GP.WR)], vow_data$Name[which.max(vow_data$GP.WR)])
 ```
 
-## MID Draft Data Analaysis
-To dive deep into the set, we drafted 25 times, resulting in 174 games played, and tracked which cards ended up in our final decks. Since we draft forty five cards each time but only typically play twenty three of them, we made sure to not include cards that sat around doing nothing. Below is a plot of all the cards we played plotted on wins and losses. The line representing our average win rate shows that cards above the line overperformed and that cards below the line underperformed.
+## Data Collection and Limitations
+To dive deep into the set, we drafted 25 times, resulting in 174 games played, and tracked which cards ended up in our final decks. Since we draft forty five cards each time but only typically play twenty three of them, we made sure to not include cards that sat around doing nothing. Unfortunately, while 25 drafts let us play with all of the important commons and uncommons of the set, it did not allow for every rare and mythic rare to be seen and played. Additionally, some cards were seen in draft but never considered good enough to be picked, and some picked cards were never considered good enough to be played. This means that our data set will not include some cards at the very top of the spectrum (excellent cards that are rarely opened and never passed) and some cards at the very bottom of the spectrum (cards we refused to pick or play). While ideally our data set contains every card several times, 25 drafts is certainly enough games to get a general feel for the format and analyze the bombs that we did have a chance to play.
+
+Another limitation of our data is that color pairs matter in Magic: The Gathering. In Midnight Hunt specifically, blue and black cards over performed, while red and green cards substantially under performed, leaving white somewhere in the middle. Midnight Hunt is a two color set, meaning that all ten two color combinations of those five colors make up the deck archetypes. Of course, some players blur the lines and 'splash' a third (or even more) colors, but the decks are primary only two colors. This matters in a few cases - let's consider the cards "Arlinn, the Pack's Hope" and "Tovolar, Dire Overlord". Arlinn and Tovolar are absolute bombs on paper and by most metrics. According to 17lands, a huge data set we pulled from to compare with our study, drawing either of those cards in a game increase your odds of winning by just over 6.5%, which is a huge impact for a singe card. However, both of these cards fall beneath the data set average win rate when put into a deck by almost 3%. This is where color pairing shows its significance. Both of these cards require both red and green mana, which means they are almost exclusively played in by far the weakest color pairing in the format. Compare that to "Drownyard Amalgam", a clunky blue common that plays best in the blue and black deck. While it sees an exact 0% increase in chance to win when played, it has a just over 2% higher overall win rate than Arlinn or Tovolar. Despite being a much less impactful card, it sees substantially better win rates because it is surrounded by higher quality cards on average in those colors. The data we collected does not take color pairings into account. Because there are ten different color pairings, separating 25 drafts into 2.5 drafts per deck would make for a very sparse data set. By combining them, we can display all 25 drafts for a total of 174 games, which will give us much more accurate win rates and more data points for a line of best fit.
+
+## Analysis
+Below is a plot of all the cards we played plotted on wins and losses. The line representing our average win rate shows that cards above the line over performed and that cards below the line under performed.
 ```{R echo = FALSE}
 
 total_played = sum(mid_draft_data$Wins) + sum(mid_draft_data$Losses)
