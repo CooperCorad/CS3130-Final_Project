@@ -9,7 +9,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{R echo = FALSE}
-neo_data <- read.csv("neo.csv")
 mid_data <- read.csv("mid.csv")
 vow_data <- read.csv("vow.csv")
 
@@ -24,8 +23,6 @@ game_losses = 60
 #bomb cards that were drafted
 
 vow_bombs = c("Avabruck Caretaker", "Dreadfast Demon", "Toxrill the Corrosive", "Henrika Domnathi", "Cemetary Desecrator", "Halana and Alena Partners", "Sorin the Mirthless", "Manaform Hellkite", "Wedding Annoucement")
-
-neo_bombs = c("Jugan Defends the Temple", "Farewell", "Tamiyo Compleated Sage", "The Wandering Emperor", "Kaito Shizuki", "Kura the Boundless Sky", "Atushi the Blazing Sky", "Junji the Midnight Sky", "Kairi the Swirling Sky", "Ao the Dawn Sky", "Tezzeret Betrayer of Flesh", "Reckoner Bankbuster")
 
 mid_bombs = c("The Meathhook Massacre", "Wrenn and Seven", "Tovolar's Huntmaster", "Leisa Forgotten Archangel", "Sigarda Champion of Light",
                 "Consuming Blob", "Arlinn the Pack's Hope", "Burn Down the House", "Poppet Stitcher", "Tainted Adversary", "Intrepid Adversary",
@@ -43,7 +40,7 @@ What we are most interested in is the contents of each pack. A draft booster pac
 
 Roughly every three months, a brand new Magic: The Gathering set is released which typically contains 350 cards. These are the cards that players will find in their draft booster packs when drafting the set. The primary focus of our study deals with the unique environments of each set. One particular characteristic of a set is whether it is a ‘prince’ or ‘pauper’ set. A ‘prince’ set is a set where the rare and mythic rare cards outperform the commons and uncommons by so much that games are almost exclusively decided by who plays an incredible rare first. These cards, which can single handedly determine the outcome of games, are called ‘bomb’. A ‘pauper’ set is the opposite, where even incredible bombs struggle to keep up with good synergies. In these sets, games are determined by several cards working together at once to generate value, and the most cohesive decks tend to win.
 
-There are a lot of factors that go into making a set fun, and the best sets get drafted frequently for all three months before a new set comes out. Other sets see the player base dwindle quickly, and even dedicated drafters are desperate for a new set by the three month mark. Balancing the power of rares and mythic rares is often a key part of this. A recent set, Kamigawa: Neon Dynasty, was a community hit for a variety of reasons, but part of this came down to the rare cards. Almost all of the rares and mythic rares were good, but very few of them were outright ‘bombs’. This meant that players were rewarded for playing these cards, and rightfully so. It’s supposed to feel good to play a powerful rare or mythic, and rewarding players for doing so helps with the sets retention. However, opponents also didn’t feel helpless when these cards were cast. This kept the games fun for casual and competitive play, and the set was very well loved.
+There are a lot of factors that go into making a set fun, and the best sets get drafted frequently for all three months before a new set comes out. Other sets see the player base dwindle quickly, and even dedicated drafters are desperate for a new set by the three month mark. Balancing the power of rares and mythic rares is often a key part of this. 
 
 The purpose of this study is to determine the significance of 'bomb' cards in the Midnight Hunt set. The Midnight Hunt set is referred to as a 'pauper set', so we expect that good value and synergistic commons and uncommons have more significant impact on games than 'bombs'. To determine this, we first conducted our own study of drafts within the set, and then also compared it to larger data sets including other Magic: The Gathering sets around the same time.
 
@@ -67,7 +64,7 @@ To dive deep into the set, we drafted 25 times, resulting in 174 games played, a
 
 Another limitation of our data is that color pairs matter in Magic: The Gathering. In Midnight Hunt specifically, blue and black cards over performed, while red and green cards substantially under performed, leaving white somewhere in the middle. Midnight Hunt is a two color set, meaning that all ten two color combinations of those five colors make up the deck archetypes. Of course, some players blur the lines and 'splash' a third (or even more) colors, but the decks are primary only two colors. This matters in a few cases - let's consider the cards "Arlinn, the Pack's Hope" and "Tovolar, Dire Overlord". Arlinn and Tovolar are absolute bombs on paper and by most metrics. According to 17lands, a huge data set we pulled from to compare with our study, drawing either of those cards in a game increase your odds of winning by just over 6.5%, which is a huge impact for a singe card. However, both of these cards fall beneath the data set average win rate when put into a deck by almost 3%. This is where color pairing shows its significance. Both of these cards require both red and green mana, which means they are almost exclusively played in by far the weakest color pairing in the format. Compare that to "Drownyard Amalgam", a clunky blue common that plays best in the blue and black deck. While it sees an exact 0% increase in chance to win when played, it has a just over 2% higher overall win rate than Arlinn or Tovolar. Despite being a much less impactful card, it sees substantially better win rates because it is surrounded by higher quality cards on average in those colors. The data we collected does not take color pairings into account. Because there are ten different color pairings, separating 25 drafts into 2.5 drafts per deck would make for a very sparse data set. By combining them, we can display all 25 drafts for a total of 174 games, which will give us much more accurate win rates and more data points for a line of best fit.
 
-## Analysis
+## MID DRAFT Analysis
 Below is a plot of all the cards we played plotted on wins and losses. The line representing our average win rate shows that cards above the line over performed and that cards below the line under performed.
 ```{R echo = FALSE}
 
@@ -77,8 +74,13 @@ num_loss = sum(sum(mid_draft_data$Losses))
 
 plot(x = mid_draft_data$Losses, y = mid_draft_data$Wins, col=ifelse(mid_draft_data$Card %in% mid_bombs, 'red', 'grey'), type = "p")  #plot the wins over the losses
 abline(a = 0, b = game_wins/game_losses)                              #add a line with the slope of our wins over losses to see how are data                                                                          #compare
+lim = c(0,20)
+
+plot(mid_draft_data$Losses, mid_draft_data$Wins, xlim = lim, ylim = lim, col=ifelse(mid_draft_data$Card %in% mid_bombs, 'red', 'grey'), type = 'p')
+abline(a = 0, b = sum(mid_draft_data$Wins, na.rm = T)/sum(mid_draft_data$Losses, na.rm = T))
 ```
 <br>Here we’ve highlighted the ‘bomb’s of the set. Each red dot represents an exceptionally powerful card. As you can see, these cards didn’t overperform in our decks. As a matter of fact, most of them underperformed. We had the opportunity to play with eight of the seventeen cards regarded as ‘bomb’ (see https://draftsim.com/MID-pick-order.php), and five of those cards actually had lower win rates than our average. Only three cards, Consuming Blob, Tovolar’s Huntmaster, and Liesa, Forgotten Angel actually outperformed our average win rate, and even then they were themselves outperformed by some common cards in the set. Consider Celestus Sanctifier, an underwhelming common with decent stats and minimal upside. Not only was this one of our most played cards, it also boasted a colossal 82.5% win rate over fifty seven games played. Obviously, it’s a worse card than Liesa, Forgotten Angel by itself, but it is easy to cast and helps synergize excellently with other cards like Mourning Patrol. 
+
 
 ## VOW DATA SET ANALYSIS
 ```{R echo = FALSE}
@@ -93,43 +95,43 @@ lim = c(0,20000)
 
 plot(vow_loss, vow_win, xlim = lim, ylim = lim, col=ifelse(vow_data$Name %in% vow_bombs, 'red', 'grey'), type = 'p')
 abline(a = 0, b = sum(vow_win, na.rm = T)/sum(vow_loss, na.rm = T))
-
 ```
 <br>This compares the wins and losses of draft games from the VOW magic set. The red points represent bombs as determined from IWD rates (IWD stands for Improvement When Drawn) and analysis regarding the overall impact the cards have in a game. From this graph, the red points are all above the base win rate calculated from the entire set, showing that these cards would routinely improve player games when used.
 
 
-
+## MID DATA SET ANALYSIS
 ```{R echo = FALSE}
 
-#mid_win = c(mid_data$GP.WR/100 * mid_data$X..GP)
-#mid_loss = c(mid_data$X..GP - mid_win)
+mid_win = c(mid_data$GP.WR/100 * mid_data$X..GP)
+mid_loss = c(mid_data$X..GP - mid_win)
 
-#plot(mid_loss, mid_win, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
-#abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
+plot(mid_loss, mid_win, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
+abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
 
-#lim = c(0,15000)
+lim = c(0,15000)
 
-#plot(mid_loss, mid_win, xlim = lim, ylim = lim, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
-#abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
+plot(mid_loss, mid_win, xlim = lim, ylim = lim, col=ifelse(mid_data$Name %in% mid_bombs, 'red', 'grey'), type = 'p')
+abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
 
 #mid_data$Name[which.min(mid_bombs %in% mid_data$Name)] # trying to get lowest performing bombs
 ```
 
+## MID and VOW comparative card analysis
+The improvement when drawn statistic is very important in this game because it shows how much a card impacts a players hand during a game. A negative improvement when drawn means that the card decreases a player's current status in the game, whereas a positive IWD increases a player's chance of winning. A density line will be plotted to help determine the distribution in each set.
 ```{R echo = FALSE}
+mid_density <- mid_data$IWD
+mid_density <- na.omit(mid_density)
 
-#neo_win = c(neo_data$GP.WR/100 * neo_data$X..GP)
-#neo_loss = c(neo_data$X..GP - neo_win)
+hist(mid_data$IWD, breaks = 10, col = "orange", main = "Histogram of MID Improvement When Drawn with Density plot", xlim = c(-10,20), ylim = c(0,0.12), xlab = "Improvement When Drawn", prob = TRUE)
+lines(density(mid_density), col = 4, lwd = 2)
 
-#plot(neo_loss, neo_win, col=ifelse(neo_data$Name %in% neo_bombs, 'red', 'grey'), type = 'p')
-#abline(a = 0, b = sum(neo_win, na.rm = T)/sum(neo_loss, na.rm = T))
+vow_density <- vow_data$IWD
+vow_density <- na.omit(vow_density)
 
-#lim = c(0, 25000)
-
-#plot(neo_loss, neo_win, xlim = lim, ylim = lim, col=ifelse(neo_data$Name %in% neo_bombs, 'red', 'grey'), type = 'p')
-#abline(a = 0, b = sum(neo_win, na.rm = T)/sum(neo_loss, na.rm = T))
-
+hist(vow_data$IWD, breaks = 10, col = "orange", main = "Histogram of VOW Improvement When Drawn with Density plot", xlim = c(-10,20), ylim = c(0,0.12), xlab = "Improvement When Drawn", prob = TRUE)
+lines(density(vow_density), col = 4, lwd = 2)
 ```
-
+<br> The MID data set is centered around 0, meaning that many of the cards don't have much significance in game meaning they are not 'bombs' and dramatically alter your current standing in the game. There is a slight increase in density around 5% IWD, showing that many cards, while most likely commons, do generally improve a player's hand. This data set is not significantly skewed indicating that MID is a 'pauper' set where there are not many 'bombs' in the set. On the other hand, the VOW histogram is skewed to the right. This means that many cards had a positive improvement in a  deck and that there are outliers in the set. An interesting thing to note is that the commons (where the higher density is between -5 and 2.5) are skewed slightly to the left, meaning that many common cards either had no impact or a negative impact on the game. This increases the importance of those 'bomb' cards to win a game. The difference between the VOW and MID histogram further support that MID is a 'pauper' set because it not nearly as skewed as the VOW data set and has a clear emphasis in common cards compared to the VOW set.
 
 ## Analysis of MID and VOW outliers
 ```{R echo = FALSE}
@@ -149,6 +151,7 @@ percent_of_vow_outliers <- number_of_vow_outliers / number_of_vow_cards
 percent_of_vow_outliers
 ```
 <br>Here you can see that there are 14 outliers in the VOW set, making 5% of the cards outliers that would significantly affect your win rate when drawn.
+
 
 ```{R echo = FALSE}
 mid_boxplot <- boxplot(mid_data$IWD, main = "MID Data Boxplot", ylab = "Improvement When Drawn")
