@@ -64,7 +64,7 @@ To dive deep into the set, we drafted 25 times, resulting in 174 games played, a
 
 Another limitation of our data is that color pairs matter in Magic: The Gathering. In Midnight Hunt specifically, blue and black cards over performed, while red and green cards substantially under performed, leaving white somewhere in the middle. Midnight Hunt is a two color set, meaning that all ten two color combinations of those five colors make up the deck archetypes. Of course, some players blur the lines and 'splash' a third (or even more) colors, but the decks are primary only two colors. This matters in a few cases - let's consider the cards "Arlinn, the Pack's Hope" and "Tovolar, Dire Overlord". Arlinn and Tovolar are absolute bombs on paper and by most metrics. According to 17lands, a huge data set we pulled from to compare with our study, drawing either of those cards in a game increase your odds of winning by just over 6.5%, which is a huge impact for a singe card. However, both of these cards fall beneath the data set average win rate when put into a deck by almost 3%. This is where color pairing shows its significance. Both of these cards require both red and green mana, which means they are almost exclusively played in by far the weakest color pairing in the format. Compare that to "Drownyard Amalgam", a clunky blue common that plays best in the blue and black deck. While it sees an exact 0% increase in chance to win when played, it has a just over 2% higher overall win rate than Arlinn or Tovolar. Despite being a much less impactful card, it sees substantially better win rates because it is surrounded by higher quality cards on average in those colors. The data we collected does not take color pairings into account. Because there are ten different color pairings, separating 25 drafts into 2.5 drafts per deck would make for a very sparse data set. By combining them, we can display all 25 drafts for a total of 174 games, which will give us much more accurate win rates and more data points for a line of best fit.
 
-## MID DRAFT Analysis
+## MID Draft Analysis
 Below is a plot of all the cards we played plotted on wins and losses. The line representing our average win rate shows that cards above the line over performed and that cards below the line under performed.
 ```{R echo = FALSE}
 
@@ -82,7 +82,7 @@ abline(a = 0, b = sum(mid_draft_data$Wins, na.rm = T)/sum(mid_draft_data$Losses,
 <br>Here we’ve highlighted the ‘bomb’s of the set. Each red dot represents an exceptionally powerful card. As you can see, these cards didn’t overperform in our decks. As a matter of fact, most of them underperformed. We had the opportunity to play with eight of the seventeen cards regarded as ‘bomb’ (see https://draftsim.com/MID-pick-order.php), and five of those cards actually had lower win rates than our average. Only three cards, Consuming Blob, Tovolar’s Huntmaster, and Liesa, Forgotten Angel actually outperformed our average win rate, and even then they were themselves outperformed by some common cards in the set. Consider Celestus Sanctifier, an underwhelming common with decent stats and minimal upside. Not only was this one of our most played cards, it also boasted a colossal 82.5% win rate over fifty seven games played. Obviously, it’s a worse card than Liesa, Forgotten Angel by itself, but it is easy to cast and helps synergize excellently with other cards like Mourning Patrol. 
 
 
-## VOW DATA SET ANALYSIS
+## VOW Data Set Analysis
 ```{R echo = FALSE}
 
 vow_win = c(vow_data$GP.WR/100 * vow_data$X..GP)
@@ -99,7 +99,7 @@ abline(a = 0, b = sum(vow_win, na.rm = T)/sum(vow_loss, na.rm = T))
 <br>This compares the wins and losses of draft games from the VOW magic set. The red points represent bombs as determined from IWD rates (IWD stands for Improvement When Drawn) and analysis regarding the overall impact the cards have in a game. From this graph, the red points are all above the base win rate calculated from the entire set, showing that these cards would routinely improve player games when used.
 
 
-## MID DATA SET ANALYSIS
+## MID Data Set Analysis
 ```{R echo = FALSE}
 
 mid_win = c(mid_data$GP.WR/100 * mid_data$X..GP)
@@ -194,4 +194,4 @@ t.test(x = mid_data$GP.WR, y = mid_draft_win_rate, conf.level = .995)
 ## Conclusion
 
 
-The data set gathered from the 25 drafts were very statistically significant compared to the much larger MID data set obtained from 17lands.com. The data gathered is representative of the average user experience. Midnight Hunt had fewer outliers in the set compared to other recent sets. Individual cards in the VOW set were much more likely to determine the outcome of a game. These 'bombs' in Crimson Vow were largely positive, meaning that if a player drew one of the 'bomb' cards, the likelihood of winning dramatically improved. 
+The data set gathered from the 25 drafts were very statistically significant compared to the much larger MID data set obtained from 17lands.com. The data gathered is representative of the average user experience. Midnight Hunt had fewer outliers in the set compared to other recent sets. Individual cards in the VOW set were much more likely to determine the outcome of a game. These 'bombs' in Crimson Vow were largely positive, meaning that if a player drew one of the 'bomb' cards, the likelihood of winning dramatically improved. If this experiment were to be repeated, a key point of data to collect would be color pairings and the strengths and weaknesses of each color within the formats. More data would need to be taken, but this would help eliminate any bias that could occur when dealing with 'bombs' in poor color pairs. This refers back to the problem with Arlinn and Tovolar, but extends into other sets and color pairs as well to varying degrees.
