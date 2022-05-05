@@ -115,6 +115,8 @@ abline(a = 0, b = sum(mid_win, na.rm = T)/sum(mid_loss, na.rm = T))
 
 #mid_data$Name[which.min(mid_bombs %in% mid_data$Name)] # trying to get lowest performing bombs
 ```
+<br>In the mid data set we see that while there are slightly more bombs above the win/loss line, the dispersion is pretty even and in addition none of the bombs are actually very far from the line. Instead the cards that vary the most from the typical win/loss line are non-bombs, this shows that in general the bombs are less likely to decide the outcome of a game when drawn than other, more common cards. 
+You can also see that the bombs are typically grouped towards the bottom of the graph, this is simply because they're less common and therefore have fewer wins/losses. To give you a better view of the bombs we cut out the upper ranges of the total mid data set to zoom more onto the bombs themselves.
 
 ## MID and VOW comparative card analysis
 The improvement when drawn statistic is very important in this game because it shows how much a card impacts a players hand during a game. A negative improvement when drawn means that the card decreases a player's current status in the game, whereas a positive IWD increases a player's chance of winning. A density line will be plotted to help determine the distribution in each set.
@@ -150,7 +152,7 @@ number_of_vow_cards <- length(vow_data$Name)
 percent_of_vow_outliers <- number_of_vow_outliers / number_of_vow_cards
 percent_of_vow_outliers
 ```
-<br>Here you can see that there are 14 outliers in the VOW set, making 5% of the cards outliers that would significantly affect your win rate when drawn.
+<br>Here you can see that there are 14 outliers in the VOW set, making 5% of the cards outliers that would significantly affect your win rate when drawn. When your deck is only 40 cards, it means you should end up with 2 cards in your deck that could change the direction of your game significantly, while that may not seem like a lot, in comparison with the mid data you'll see below it's evidently much more volatile.
 
 
 ```{R echo = FALSE}
@@ -171,7 +173,8 @@ percent_of_mid_outliers
 
 ```
 
-<br>In the MID box plot there are only 2 outliers, making outliers 0.7% of the data set. These box plots highlight the signficance of "bomb" cards in the VOW magic set compared to a more balanced magic such as the MID set. The Improvement when drawn is a statistics that removes all the times that a player has the card in their deck but is not seen during the game. This data only shows how the card directly impacts the game. As shown, VOW has signifcantly more cards that could greatly impact (whether positively or negatively) a players game when drawn.
+<br>In the MID box plot there are only 2 outliers, making outliers 0.7% of the data set. This means that the mid set is 7 times *less likely* than the vow set to produce a card that could significantly change the outcome of the game. As a result games using the vow set can be less skill based and more luck based than mid. This diversion from skill into luck is what makes a deck less "pauperish" and what makes mid so well balanced.
+These box plots highlight the significance of "bomb" cards in the VOW magic set compared to a more balanced magic such as the MID set. The Improvement when drawn is a statistics that removes all the times that a player has the card in their deck but is not seen during the game. This data only shows how the card directly impacts the game. As shown, VOW has signifcantly more cards that could greatly impact (whether positively or negatively) a players game when drawn.
 
 
 ## Hypothesis Test:
